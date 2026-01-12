@@ -8,14 +8,15 @@ on:
 
 permissions:
   contents: read
+  packages: write
 
 concurrency:
-  group: dockerhub-${{ github.ref }}
+  group: ghcr-${{ github.ref }}
   cancel-in-progress: true
 
 env:
-  # 默认仓库名：<DOCKERHUB_USERNAME>/unidbg-fq
-  IMAGE_NAME: unidbg-fq
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build-and-push:
@@ -43,17 +44,18 @@ jobs:
         with:
           platforms: arm64
 
-      - name: Login to Docker Hub
+      - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Docker metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=ref,event=tag
