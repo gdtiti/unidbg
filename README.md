@@ -24,7 +24,7 @@ java -jar target/fqnovel.jar
 ```
 ## docker
 ```bash
-docker run -d --name fqnovel --restart=always -p 9999:9999 gxmandppx/unidbg-fq:latest
+docker run -d --name fqnovel --restart=always -p 7860:7860 gxmandppx/unidbg-fq:latest
 ```
 ## 免责声明
 

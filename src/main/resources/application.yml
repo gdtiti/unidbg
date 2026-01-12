@@ -1,5 +1,5 @@
 server:
-  port: ${SERVER_PORT:9999}
+  port: ${SERVER_PORT:7860}
   address: ${SERVER_ADDRESS:0.0.0.0}
 spring:
   main:
@@ -42,6 +42,9 @@ fq:
     retry-delay-ms: 1500
     retry-max-delay-ms: 10000
   api:
+    # 是否在启动时随机生成设备信息，默认为 true
+    # 设置为 false 时使用下方配置的固定设备信息
+    randomize-on-startup: true
     base-url: https://api5-normal-sinfonlineb.fqnovel.com
     cookie: store-region=cn-zj; store-region-src=did; install_id=670078579016233;
     device:

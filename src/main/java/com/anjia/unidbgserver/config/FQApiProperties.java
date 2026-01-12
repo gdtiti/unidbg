@@ -1,5 +1,6 @@
 package com.anjia.unidbgserver.config;
 
+import com.anjia.unidbgserver.dto.DeviceInfo;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,12 @@ public class FQApiProperties {
      * API基础URL
      */
     private String baseUrl = "https://api5-normal-sinfonlineb.fqnovel.com";
+    
+    /**
+     * 是否在启动时随机生成设备信息
+     * 默认为 true
+     */
+    private boolean randomizeOnStartup = true;
     
     /**
      * 默认User-Agent
@@ -109,5 +116,78 @@ public class FQApiProperties {
          * Android API（例如 32）
          */
         private String osApi = "32";
+    }
+    
+    /**
+     * 从 DeviceInfo 更新配置属性
+     * 用于启动时随机化设备信息后更新配置
+     * 
+     * @param deviceInfo 设备信息对象
+     */
+    public void updateFromDeviceInfo(DeviceInfo deviceInfo) {
+        if (deviceInfo == null) {
+            return;
+        }
+        
+        // 更新 userAgent
+        if (deviceInfo.getUserAgent() != null) {
+            this.userAgent = deviceInfo.getUserAgent();
+        }
+        
+        // 更新 cookie
+        if (deviceInfo.getCookie() != null) {
+            this.cookie = deviceInfo.getCookie();
+        }
+        
+        // 更新 device 内部类的所有字段
+        if (this.device == null) {
+            this.device = new Device();
+        }
+        
+        if (deviceInfo.getCdid() != null) {
+            this.device.setCdid(deviceInfo.getCdid());
+        }
+        if (deviceInfo.getInstallId() != null) {
+            this.device.setInstallId(deviceInfo.getInstallId());
+        }
+        if (deviceInfo.getDeviceId() != null) {
+            this.device.setDeviceId(deviceInfo.getDeviceId());
+        }
+        if (deviceInfo.getAid() != null) {
+            this.device.setAid(deviceInfo.getAid());
+        }
+        if (deviceInfo.getVersionCode() != null) {
+            this.device.setVersionCode(deviceInfo.getVersionCode());
+        }
+        if (deviceInfo.getVersionName() != null) {
+            this.device.setVersionName(deviceInfo.getVersionName());
+        }
+        if (deviceInfo.getUpdateVersionCode() != null) {
+            this.device.setUpdateVersionCode(deviceInfo.getUpdateVersionCode());
+        }
+        if (deviceInfo.getDeviceType() != null) {
+            this.device.setDeviceType(deviceInfo.getDeviceType());
+        }
+        if (deviceInfo.getDeviceBrand() != null) {
+            this.device.setDeviceBrand(deviceInfo.getDeviceBrand());
+        }
+        if (deviceInfo.getRomVersion() != null) {
+            this.device.setRomVersion(deviceInfo.getRomVersion());
+        }
+        if (deviceInfo.getResolution() != null) {
+            this.device.setResolution(deviceInfo.getResolution());
+        }
+        if (deviceInfo.getDpi() != null) {
+            this.device.setDpi(deviceInfo.getDpi());
+        }
+        if (deviceInfo.getHostAbi() != null) {
+            this.device.setHostAbi(deviceInfo.getHostAbi());
+        }
+        if (deviceInfo.getOsVersion() != null) {
+            this.device.setOsVersion(deviceInfo.getOsVersion());
+        }
+        if (deviceInfo.getOsApi() != null) {
+            this.device.setOsApi(String.valueOf(deviceInfo.getOsApi()));
+        }
     }
 }

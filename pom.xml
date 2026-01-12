@@ -104,6 +104,19 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- JUnit Vintage engine to run JUnit 4 tests on JUnit 5 platform -->
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- jqwik for property-based testing -->
+        <dependency>
+            <groupId>net.jqwik</groupId>
+            <artifactId>jqwik</artifactId>
+            <version>1.7.4</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
